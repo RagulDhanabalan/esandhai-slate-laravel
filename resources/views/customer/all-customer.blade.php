@@ -27,11 +27,28 @@
                 <!-- <div class="w-3 h-3 absolute mx-2 top-[7px] align-middle bg-red-600 rounded-circle"></div> -->
                 <h1 class="flex items-center">[<div class="blinking-round ml-1 bg-red-500 w-3 h-3 rounded-full">
                     </div>
-                    <p class="pl-1 pr-1 text-xs" id="tim">
-                        {{-- {{ \Carbon\Carbon::now()->format('d,M Y') }} --}}
-                        {{ date('d, M, Y h:i') }}</p>]
+                    <p class="pl-1 pr-1 text-xs" id="live-time">
+                    </p>]
                 </h1>
+
+                <script>
+                    function updateLiveTime() {
+                        const liveTimeElement = document.getElementById('live-time');
+                        const currentTime = new Date(); // Creating a new Date object with the current date and time
+
+                        // Formatting the current time as a string in the desired format(d, M, Y h: i)
+                        const formattedTime =
+                            `${currentTime.toLocaleString('default', { day:'numeric', weekday: 'short', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' })}`;
+
+                        liveTimeElement.textContent = formattedTime;
+                        // liveTimeElement.textContent = currentTime.toLocaleTimeString();
+                    }
+                    // Call the function to update the live time when needed
+                    updateLiveTime();
+                    setInterval(updateLiveTime, 1000);
+                </script>
             </strong>
+
         </div>
     </div>
     <!-- customers table -->
@@ -62,87 +79,91 @@
                 <!-- </div> -->
             </div>
             <!-- for searching inside customers -->
-            <div class="search-customers flex">
+            {{-- <div class="search-customers flex">
                 <label for="" class="font-normal text-slate-700">Search Customer :</label>
                 <input type="search" class="border border-gray-200 text-xs focus:outline-none ml-2 py-1 px-1 rounded"
                     placeholder="">
-            </div>
+            </div> --}}
         </div>
         <!-- table start -->
         <div class="pb-2">
-            <table class="w-full h-auto table-auto border border-collapse border-gray-200">
-                <thead class="h-16 bg-slate-100 text-sm">
-                    <tr class="">
-                        <th rowspan="2" class="border text-sm text-gray-900">Customer Name
-                        </th>
-                        <th rowspan="2" class="border text-sm text-gray-900">Status</th>
-                        <th rowspan="2" class="border text-sm text-gray-900">Lat Lng</th>
-                        <th colspan="2" class="border text-sm text-gray-900">Total</th>
-                        <th colspan="3" class="border text-sm text-gray-900">Date</th>
-                        <th rowspan="2" class="border text-sm text-gray-900">Score</th>
-                        <th rowspan="2" class="border text-sm text-gray-900">Category</th>
-                        <th rowspan="2" class="border text-sm text-gray-900">Action</th>
-                    <tr>
-                        <th class="border text-sm text-gray-900">Orders</th>
-                        <th class="border text-sm text-gray-900">Amount</th>
-                        <th class="border text-sm text-gray-900">Onboarded</th>
-                        <th class="border text-sm text-gray-900">First Ordered</th>
-                        <th class="border text-sm text-gray-900">Last Ordered</th>
+            <table class="display text-xs min-w-full table-auto mt-8 stripe hover border cell-border mb-8 text-ellipsis"
+                id="myTable">
+                <thead class="bg-slate-100 border">
+                    <tr class="border">
+                        <th rowspan="2" class="border">Customer Name</th>
+                        <th rowspan="2" class="border">Status</th>
+                        <th rowspan="2" class="border">Lat Lng</th>
+                        <th colspan="2" class="border">Total</th>
+                        <th colspan="3" class="border">Date</th>
+                        <th rowspan="2" class="border">Score</th>
+                        <th rowspan="2" class="border">Category</th>
+                        <th rowspan="2" class="border">Action</th>
+                    <tr class="border">
+                        <th class="border">Orders</th>
+                        <th class="border">Amount</th>
+                        <th class="border">Onboarded</th>
+                        <th class="border">First Ordered</th>
+                        <th class="border">Last Ordered</th>
                     </tr>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($customers as $customer)
-                        <tr class="h-10 bg-slate-50">
-                            <td class="border text-xs text-gray-900 font-bold px-2">{{ $customer->customername }}</td>
-                            <td class="border text-xs pl-5"><svg xmlns="http://www.w3.org/2000/svg" height="1em"
-                                    class="fill-red-400"
+                        <tr class="bg-slate-50 cell-border">
+                            <td class="font-semibold">
+                                {{ $customer->customername }}</td>
+                            <td class="font-semibold">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="1.0em" class="fill-red-400"
                                     viewBox="0 0 384 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                                     <path
                                         d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
-                                </svg></td>
-                            <td class="border text-xs"><svg xmlns="http://www.w3.org/2000/svg" height="1em"
-                                    class="pl-6 fill-green-700"
+                                </svg>
+                            </td>
+                            <td class="font-semibold">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="1.0em" class="pl-6 fill-green-700"
                                     viewBox="0 0 384 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                                     <path
                                         d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z" />
-                                </svg></td>
-                            <td class="border text-xs text-gray-900 font-bold text-right px-1">{{ $customer->orders }}
+                                </svg>
                             </td>
-                            <td class="border text-xs text-gray-900 font-bold text-right pr-[5px]">
+                            <td class="font-semibold">
+                                {{ $customer->orders }}
+                            </td>
+                            <td class="font-semibold">
                                 &#8377 {{ $customer->amount }}</td>
-                            <td class="border text-xs text-gray-900 font-bold text-left pl-[5px]">
+                            <td class="font-semibold">
                                 {{ \Carbon\Carbon::parse($customer->onboarded)->format('D, jS M, Y') }}</td>
-                            <td class="border text-xs text-gray-900 font-bold text-left pl-[5px]">
+                            <td class="font-semibold">
                                 {{ \Carbon\Carbon::parse($customer->firstordered)->format('D, jS M, Y') }}</td>
                             </td>
-                            <td class="border text-xs text-gray-900 font-bold text-left pl-[5px]">
+                            <td class="font-semibold">
                                 {{ \Carbon\Carbon::parse($customer->lastordered)->format('D, jS M, Y') }}</td>
                             </td>
-                            <td class="border text-xs text-gray-900 font-bold text-right pr-[5px]">
+                            <td class="font-semibold">
                                 {{ $customer->score }}</td>
-                            <td class="border text-xs pl-[5px] pr-[5px]">
-                                <div class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                            <td class="font-semibold">
+                                <div class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" height="1.0em"
                                         class="fill-blue-300 pr-3"
                                         viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                                         <path
                                             d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM504 312V248H440c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V136c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H552v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z" />
                                     </svg>
-                                    <p class="text-xs text-gray-900 font-bold">New Onboard</p>
+                                    <p class="text-xs text-gray-900 font-semibold">New Onboard</p>
                                 </div>
                             </td>
-                            <td class="border text-xs text-gray-500 font-bold">
+                            <td class="font-semibold">
                                 <div class="flex justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" class="fill-blue-600 px-1"
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="1.0em" class="fill-blue-600 px-1"
                                         viewBox="0 0 460 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                                         <path
                                             d="M220.6 130.3l-67.2 28.2V43.2L98.7 233.5l54.7-24.2v130.3l67.2-209.3zm-83.2-96.7l-1.3 4.7-15.2 52.9C80.6 106.7 52 145.8 52 191.5c0 52.3 34.3 95.9 83.4 105.5v53.6C57.5 340.1 0 272.4 0 191.6c0-80.5 59.8-147.2 137.4-158zm311.4 447.2c-11.2 11.2-23.1 12.3-28.6 10.5-5.4-1.8-27.1-19.9-60.4-44.4-33.3-24.6-33.6-35.7-43-56.7-9.4-20.9-30.4-42.6-57.5-52.4l-9.7-14.7c-24.7 16.9-53 26.9-81.3 28.7l2.1-6.6 15.9-49.5c46.5-11.9 80.9-54 80.9-104.2 0-54.5-38.4-102.1-96-107.1V32.3C254.4 37.4 320 106.8 320 191.6c0 33.6-11.2 64.7-29 90.4l14.6 9.6c9.8 27.1 31.5 48 52.4 57.4s32.2 9.7 56.8 43c24.6 33.2 42.7 54.9 44.5 60.3s.7 17.3-10.5 28.5zm-9.9-17.9c0-4.4-3.6-8-8-8s-8 3.6-8 8 3.6 8 8 8 8-3.6 8-8z" />
-                                    </svg><svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                                    </svg><svg xmlns="http://www.w3.org/2000/svg" height="1.0em"
                                         class="fill-blue-600 px-1"
                                         viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                                         <path
                                             d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z" />
-                                    </svg><svg xmlns="http://www.w3.org/2000/svg" height="1em"
+                                    </svg><svg xmlns="http://www.w3.org/2000/svg" height="1.0em"
                                         class="fill-blue-600 px-1"
                                         viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                                         <path
@@ -153,56 +174,29 @@
                         </tr>
                     @endforeach
                 </tbody>
+                <script>
+                    $(document).ready(function() {
+                        // Initialize DataTable with paging
+                        $('#myTable').DataTable({
+                            language: {
+                                search: 'Search Customers:',
+                            },
+                            pageLength: 5,
+                            dom: '<"toolbar">frtip', // Set the default page length
+                            // You can customize more DataTable options here as needed
+                        });
+                    });
+                    document.querySelector('div.toolbar').innerHTML = '';
+                </script>
             </table>
-            <small class="text-sm text-gray-600">1 to 10 of 2,282 Customer</small>
-            <!-- for pagination start -->
-            <div class="grid justify-items-end rounded">
-                <div class="pagination-main flex right">
-                    <!-- pagination sub start -->
-                    <div class="bg-gray-200 h-8 w-7 p-1 flex items-center border rounded-tl-[7px] rounded-bl-[7px]">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="1em"
-                            viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                            <path
-                                d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
-                        </svg>
-                    </div>
-                    <div class="bg-gray-200 h-8 w-7 p-1 flex items-center border"><svg xmlns="http://www.w3.org/2000/svg"
-                            height="1em"
-                            viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                            <path
-                                d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
-                        </svg></div>
-                    <div class="bg-blue-500 text-white h-8 w-7 p-1 text-center border">1</div>
-                    <div class="text-blue-500 h-8 w-7 p-1 text-center border">2</div>
-                    <div class="text-blue-500 h-8 w-7 p-1 text-center border">3</div>
-                    <div class="text-blue-500 h-8 w-7 p-1 text-center border">4</div>
-                    <div class="text-blue-500 h-8 w-7 p-1 text-center border">5</div>
-                    <div class="h-8 w-7 p-1 text-center bg-slate-300 border">...</div>
-                    <div class="text-blue-500 h-8 w-7 p-1 text-center border">229</div>
-                    <div class="h-8 w-7 p-1 flex items-center border"><svg xmlns="http://www.w3.org/2000/svg"
-                            height="1em" class="fill-blue-500 pl-2"
-                            viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                            <path
-                                d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" />
-                        </svg></div>
-                    <div class="h-8 w-7 p-1 flex items-center border rounded-tr-[7px] rounded-br-[7px]">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="1em" class="fill-blue-500"
-                            viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                            <path
-                                d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" />
-                        </svg>
-                    </div>
-                    <!-- pagination sub end -->
-                </div>
-            </div>
             <br>
             <!-- for pagination end -->
-            <hr>
         </div>
+        <hr>
         <!-- table end -->
 
         <!-- start for three small tables -->
-        <div class="no-filters">
+        <div class="no-filters mt-4">
             <div class="flex justify-between py-1 h-10 no-filter-head">
                 <div class="flex no-filter-left h-full align-middle">
                     <svg xmlns="http://www.w3.org/2000/svg" class="mt-1 mr-1 fill-gray-400" height="1em"
@@ -224,7 +218,7 @@
                             <input type="text" class="w-[220px] px-1 bg-[rgba(246,255,249,255)] border rounded"
                                 placeholder="Branch">
                             <svg xmlns="http://www.w3.org/2000/svg"
-                                class="absolute left-[200px] h-[16px] w-4 fill-gray-500 bottom-1" height=""
+                                class="absolute left-[200px] h-[16px] w-4 fill-gray-500 bottom-1"
                                 viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                                 <path
                                     d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
@@ -289,7 +283,7 @@
                             <input type="text" class="w-[220px] px-1 bg-[rgba(246,255,249,255)] border rounded"
                                 placeholder="Sales Executive">
                             <svg xmlns="http://www.w3.org/2000/svg"
-                                class="absolute left-[200px] h-[16px] w-4 fill-gray-500 bottom-1" height=""
+                                class="absolute left-[200px] h-[16px] w-4 fill-gray-500 bottom-1"
                                 viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                                 <path
                                     d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
@@ -353,7 +347,7 @@
                             <input type="text" class="w-[220px] px-1 bg-[rgba(246,255,249,255)] border rounded"
                                 placeholder="Category">
                             <svg xmlns="http://www.w3.org/2000/svg"
-                                class="absolute left-[200px] h-[16px] w-4 fill-gray-500 bottom-1" height=""
+                                class="absolute left-[200px] h-[16px] w-4 fill-gray-500 bottom-1"
                                 viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                                 <path
                                     d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
@@ -452,18 +446,10 @@
         <!-- start of map -->
         <div class="border border-green-200 h-[452px] w-full mt-1 mb-1">
             <div class="w-full h-full">
-                <!-- <iframe class="w-full"
-                                                                                                                                                                                                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d125406.03875544824!2d78.60662521726222!3d10.816002350632969!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3baaf50ff2aecdad%3A0x6de02c3bedbbaea6!2sTiruchirappalli%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1693730244235!5m2!1sen!2sin"
-                                                                                                                                                                                                                width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-                                                                                                                                                                                                                referrerpolicy="no-referrer-when-downgrade"></iframe> -->
                 <iframe class="w-full"
                     src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d4012924.123838464!2d78.28976490000001!3d10.821166349999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1693730467134!5m2!1sen!2sin"
                     width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade"></iframe>
-                <!-- <iframe
-                                                                                                                                                                                                                src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d15670.45378206546!2d78.69202284999999!3d10.916953899999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1693805121735!5m2!1sen!2sin"
-                                                                                                                                                                                                                width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-                                                                                                                                                                                                                referrerpolicy="no-referrer-when-downgrade"></iframe> -->
             </div>
             <div class="flex justify-end text-green-700">
                 <div
@@ -695,13 +681,27 @@
 
         </div>
         <!-- end of legend -->
+        <div class="bg-red-400 h-28">
+            dfdfgr
+        </div>
 
     </div>
     <hr class="fill-gray-400 mt-12">
     <!-- footer start -->
     <div class="flex justify-center items-center h-10 w-full">
-        <small class="flex justify-center items-center font-semibold text-green-700">&#169 2023 <p class="font-bold pl-2">
-                e-sandhai</p>. {{ now() }}</small>
+        <small class="flex justify-center items-center font-semibold text-green-700">&#169 2023 e-sandhai. <p
+                class="font-bold pl-2" id="footer-time">
+            </p></small>
+        <script>
+            function footerTime() {
+                const footertime = document.getElementById('footer-time');
+                const current = new Date();
+                footertime.textContent = current;
+            }
+            footerTime();
+            setInterval(footerTime, 1000);
+        </script>
     </div>
+
     <!-- footer end -->
 @endsection

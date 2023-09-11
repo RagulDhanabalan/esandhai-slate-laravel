@@ -4,12 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @vite('resources/css/app.css')
     <title>Slate - eSandhai</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" href="{{ asset('asset/esandhai-logo - slate.png') }} " type="image/x-icon">
-    <!-- for datatables.net -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <link href="/dist/output.css" rel="stylesheet">
+
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    {{-- bootstrap --}}
+    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.11.10/css/jquery.dataTables.min.css"> --}}
+    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.11.10/css/dataTables.bootstrap4.min.css"> --}}
+    {{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> --}}
     @verbatim
         <style>
             .blinking-round {
@@ -29,7 +37,45 @@
                     opacity: 1;
                 }
             }
+
+            .blinking-customer {
+                animation: blink 1.5s ease-in-out infinite;
+            }
+
+            @keyframes blink {
+                0% {
+                    opacity: 1;
+                }
+
+                50% {
+                    opacity: 0;
+                }
+
+                100% {
+                    opacity: 1;
+                }
+            }
+
+            .toggle-btn:active {
+                background-color: #e5e5e5;
+            }
         </style>
+
+    @endverbatim
+    @verbatim
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const toggleButton = document.getElementById('btn');
+                const sidebar = document.getElementById('sidebar');
+                const content = document.getElementById('content');
+
+                toggleButton.addEventListener('click', function() {
+                    sidebar.classList.toggle('-translate-x-[209px]');
+                    content.classList.toggle('w-full');
+                });
+
+            });
+        </script>
     @endverbatim
 
 </head>
@@ -43,13 +89,15 @@
             <img class="mr-2 h-6 mt-1" src="{{ asset('asset/esandhai-logo - slate.png') }}" alt="e-sandhai logo image">
             <h2 class="text-[rgba(27,137,67,255)] font-bold text-xl">Slate - eSandhai</h2>
             <!-- for navbar leftside menu feild -->
-            <div class=" menu-main ml-10 mt-[5px]">
-                <button class="">
+            <div class="side-bar ml-10 mt-[5px]" title="Toggle-Sidebar">
+                <button class="toggle-btn focus:outline-none" id="btn" title="Toggle-Sidebar">
                     <div class="menu-sub h-[2px] w-5 bg-[rgba(27,137,67,255)] mb-[3px]"></div>
                     <div class="menu-sub h-[2px] w-5 bg-[rgba(27,137,67,255)] mb-[3px]"></div>
                     <div class="menu-sub h-[2px] w-5 bg-[rgba(27,137,67,255)]"></div>
                 </button>
+
             </div>
+
             <!-- for navbar left side search field -->
             <div class="antialiased search-bar static flex items-center p-1">
                 <input type="search" name="search"
@@ -100,8 +148,8 @@
         </div>
     </div>
     <!-- for sidebar main -->
-    <div class="antialiased side-bar relative flex">
-        <div class="nav-side w-.8/6 bg-white h-[610px] px-1 py-2 fixed top-10">
+    <div class="antialiased side-bar toggle relative flex fixed ease-in-out  duration-3000" id="sidebar">
+        <div class="side-bar nav-side w-.8/6 bg-white h-[610px] px-1 py-2 fixed top-10">
             <ul class="w-full mt-7">
                 <li
                     class="h-10 flex align-middle hover:bg-gray-200 px-2 py-1 font-bold text-sm text-[rgba(27,137,67,255)]">
@@ -204,8 +252,8 @@
                     </svg>Hourly
                     Orders
                     Report</li>
-                <li class="h-10 flex hover:bg-gray-200 px-2 py-1 font-bold text-sm text-green-500"><svg
-                        xmlns="http://www.w3.org/2000/svg" class="fill-[rgba(27,137,67,255)] m-[2px] pr-2"
+                <li class="blinking-customer h-10 flex hover:bg-gray-200 px-2 py-1 font-bold text-sm text-green-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="fill-[rgba(27,137,67,255)] m-[2px] pr-2"
                         height="1em"
                         viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                         <path
@@ -222,16 +270,15 @@
                     Sale
                 </li>
             </ul>
+
         </div>
         <!-- for content scrollable ( All other contents ) -->
-        <div
-            class="bg-[rgb( 237, 245, 245 )] backdrop-blur-sm absolute pl-2 pr-2 scroll-smooth top-10 h-auto left-[220px] w-5/6 rounded-3xl">
+        <div id="content"
+            class="content bg-[rgb( 237, 245, 245 )] backdrop-blur-sm absolute pl-2 pr-2 scroll-smooth top-10 h-auto left-[220px] w-5/6 rounded-3xl">
             <!-- Customers title -->
             @yield('content')
         </div>
-        <!-- <script>
-            new DataTable('#example');
-        </script> -->
+
 </body>
 
 </html>
