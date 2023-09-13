@@ -12,7 +12,8 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-
+    <script src="https://cdn.datatables.net/select/1.7.0/js/dataTables.select.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
     @verbatim
         <style>
             body {
@@ -39,8 +40,8 @@
             }
 
             /* .blinking-customer {
-                                                                                                                                                                                                            animation: blink 1.5s ease-in-out infinite;
-                                                                                                                                                                                                        } */
+                                                                                                                                                                                                                            animation: blink 1.5s ease-in-out infinite;
+                                                                                                                                                                                                                        } */
 
             @keyframes blink {
                 0% {

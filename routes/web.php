@@ -21,3 +21,12 @@ Route::get('/index', function () {
     return view('layouts.esandhai-slate');
 });
 Route::get('/customer', [Customer::class, 'customer']);
+
+
+
+Route::get('/export-csv', [Customer::class, 'exportCsv'])->name('export.csv');
+Route::get('/export-excel', [Customer::class, 'exportExcel'])->name('export.excel');
+
+
+
+Route::get('/export-pdf', [Customer::class, 'exportPdf'])->name('export.pdf');
