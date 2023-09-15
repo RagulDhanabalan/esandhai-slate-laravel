@@ -39,10 +39,6 @@
                 }
             }
 
-            /* .blinking-customer {
-                                                                                                                                                                                                                            animation: blink 1.5s ease-in-out infinite;
-                                                                                                                                                                                                                        } */
-
             @keyframes blink {
                 0% {
                     opacity: 1;
@@ -174,8 +170,7 @@
     <div class="antialiased side-bar toggle relative flex fixed px-1" id="sidebar">
         <div class="side-bar nav-side w-.8/6 bg-white h-[610px] py-2 fixed top-10">
             <ul class="w-full mt-7">
-                <li
-                    class="h-10 flex items-center align-middle hover:bg-gray-200 px-2 py-1 font-bold text-sm text-[rgba(27,137,67,255)]">
+                <li class="h-10 flex items-center align-middle px-2 py-1 font-bold text-sm text-[rgba(27,137,67,255)]">
                     <svg xmlns="http://www.w3.org/2000/svg" class="m-[2px] pr-2 fill-[#8DB08D]" height="1em"
                         viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                         <path
@@ -308,7 +303,7 @@
         </div>
         <!-- for content scrollable ( All other contents ) -->
         <div id="content"
-            class="content bg-[rgb( 237, 245, 245 )] backdrop-blur-sm absolute px-3 pr-6 scroll-smooth top-10 h-auto left-[230px] w-5/6 rounded-3xl">
+            class="content bg-[rgb( 237, 245, 245 )] backdrop-blur-sm absolute px-5 pr-6 scroll-smooth top-10 h-auto left-[235px] w-5/6 rounded-3xl">
             <!-- Customers title -->
             @yield('content')
         </div>

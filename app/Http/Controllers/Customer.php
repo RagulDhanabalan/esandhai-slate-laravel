@@ -17,37 +17,41 @@ class Customer extends Controller
 {
     public function customer()
     {
+        $isLoading = true;
         $customers = DB::table('esandhai-slate')->get();
-        return view('customer.all-customer')->with('customers', $customers);
+        return view('customer.all-customer', compact('customers', 'isLoading'));
     }
 
 
     public function exportCsv()
     {
+        $isLoading = true;
         $export = new DataExport();
         return Excel::download($export, 'Customers.csv');
     }
 
     public function exportExcel()
     {
+        $isLoading = true;
         $export = new DataExport();
         return Excel::download($export, 'Customers.xlsx');
     }
 
     public function exportPdf()
     {
-        $customers = DB::table('esandhai-slate')->get();
+        $isLoading = true;
+        $customers = DB::table('esandhai-slate')->paginate(5);
 
         $pdf = PDF::loadView('customer.exportspdf', ['customers' => $customers]);
 
         // Generate a unique filename for the PDF
-        $filename = 'customer_data_' . time() . '.pdf';
+        $filename = 'Invoice.pdf';
 
         // Store the PDF in the temporary storage
         Storage::put('pdf/' . $filename, $pdf->output());
 
         // Provide a link for the user to download the PDF
-        return response()->download(storage_path('app/pdf/' . $filename), 'customer_data.pdf');
+        return response()->download(storage_path('app/pdf/' . $filename), 'Invoice.pdf');
     }
 
 }
