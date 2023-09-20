@@ -191,17 +191,199 @@
                         @endforeach
                     </tbody>
                 </table>
-                <br>
             </div>
-
-
-            {{-- pie chart --}}
+            <br>
             <hr>
             <!-- table end -->
-            <div class="bg-green-100 h-[200px] w-full" id="demo-output">
+
+            {{--  --}}
+
+            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+            <script type="text/javascript">
+                google.charts.load('current', {
+                    'packages': ['corechart']
+                });
+                google.charts.setOnLoadCallback(drawCharts);
+
+                function drawCharts() {
+                    // Pie Chart Data
+                    var pieData = google.visualization.arrayToDataTable([
+                        ['Task', 'Hours per Day'],
+                        ['Orders', {{ $orders }}],
+                        ['Amount', {{ $amount }}],
+                        ['Score', {{ $score }}]
+                    ]);
+
+                    var pieOptions = {
+                        title: 'Customers',
+                        is3D: true,
+                    };
+
+                    var pieChart = new google.visualization.PieChart(document.getElementById('piechart'));
+                    pieChart.draw(pieData, pieOptions);
+
+                    // Combo Chart Data
+                    var comboData = new google.visualization.DataTable();
+                    comboData.addColumn('string', 'Time of Day');
+                    comboData.addColumn('number', 'Orders');
+                    comboData.addColumn('number', 'Amount');
+                    comboData.addColumn('number', 'Score');
+
+                    comboData.addRows([
+                        ['8 am', {{ $orders }}, {{ $amount }}, {{ $score }}],
+                        ['9 am', {{ $orders }}, {{ $amount }}, {{ $score }}],
+                        ['10 am', {{ $orders }}, {{ $amount }}, {{ $score }}],
+                        ['11 am', {{ $orders }}, {{ $amount }}, {{ $score }}],
+                        ['12 pm', {{ $orders }}, {{ $amount }}, {{ $score }}],
+                        ['1 pm', {{ $orders }}, {{ $amount }}, {{ $score }}],
+                        ['2 pm', {{ $orders }}, {{ $amount }}, {{ $score }}],
+                        ['3 pm', {{ $orders }}, {{ $amount }}, {{ $score }}],
+                        ['4 pm', {{ $orders }}, {{ $amount }}, {{ $score }}],
+                        ['5 pm', {{ $orders }}, {{ $amount }}, {{ $score }}],
+                    ]);
+
+                    var comboOptions = {
+                        title: 'Orders, Amount, and Score of the Customers',
+                        subtitle: 'Per one month',
+                        seriesType: 'bars',
+                        series: {
+                            2: {
+                                type: 'line'
+                            }
+                        },
+                        vAxes: {
+                            0: {
+                                title: 'Orders & Amount'
+                            },
+                            1: {
+                                title: 'Score',
+                                minValue: 0,
+                                maxValue: 10
+                            }
+                        },
+                        hAxis: {
+                            title: 'Time of Day',
+                            format: 'h:mm a',
+                            slantedText: true,
+                            slantedTextAngle: 45,
+                        },
+                    };
+
+                    var comboChart = new google.visualization.ComboChart(document.getElementById('combochart'));
+                    comboChart.draw(comboData, comboOptions);
+                }
+            </script>
+
+            {{--  --}}
+
+
+            <div class="bg-green-100 h-[400px] w-full" id="piechart">
                 <h3>Customer Pie - Chart</h3>
             </div>
 
+            <br>
+            <hr>
+            {{-- line chart --}}
+
+            <div class="bg-green-100 h-[400px] w-full" id="combochart">
+                <h3>Customer Material - Chart</h3>
+            </div>
+
+            <br>
+            <hr>
+
+
+            {{-- curve chart --}}
+            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+            <script type="text/javascript">
+                google.charts.load('current', {
+                    'packages': ['corechart']
+                });
+                google.charts.setOnLoadCallback(drawChart);
+
+                function drawChart() {
+                    var data = google.visualization.arrayToDataTable([
+                        ['Year', 'Sales', 'Expenses'],
+                        ['2004', 1000, 400],
+                        ['2005', 1170, 460],
+                        ['2006', 660, 1120],
+                        ['2007', 1030, 540]
+                    ]);
+
+                    var options = {
+                        title: 'Company Performance',
+                        curveType: 'function',
+                        legend: {
+                            position: 'bottom'
+                        }
+                    };
+
+                    var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+                    chart.draw(data, options);
+                }
+            </script>
+            <div class="bg-green-100 h-[400px] w-full" id="curve_chart">
+
+            </div>
+            {{-- curve chart --}}
+            {{-- donut chart --}}
+            <div class="bg-green-100 h-[400px] w-full" id="donutchart">
+            </div>
+            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+            <script type="text/javascript">
+                google.charts.load("current", {
+                    packages: ["corechart"]
+                });
+                google.charts.setOnLoadCallback(drawChart);
+
+                function drawChart() {
+                    var data = google.visualization.arrayToDataTable([
+                        ['Task', 'Hours per Day'],
+                        ['Work', 11],
+                        ['Eat', 2],
+                        ['Commute', 2],
+                        ['Watch TV', 2],
+                        ['Sleep', 7]
+                    ]);
+
+                    var options = {
+                        title: 'My Daily Activities',
+                        pieHole: 0.4,
+                    };
+
+                    var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+                    chart.draw(data, options);
+                }
+            </script>
+            {{-- donut chart --}}
+            <div id="regions_div" class="h-[400px] w-full bg-green-100">
+            </div>
+            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+            <script>
+                google.charts.load('current', {
+                    'packages': ['geochart'],
+                });
+                google.charts.setOnLoadCallback(drawRegionsMap);
+
+                function drawRegionsMap() {
+                    var data = google.visualization.arrayToDataTable([
+                        ['Country', 'Popularity'],
+                        ['Germany', 200],
+                        ['United States', 300],
+                        ['Brazil', 400],
+                        ['Canada', 500],
+                        ['France', 600],
+                        ['RU', 700]
+                    ]);
+
+                    var options = {};
+
+                    var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+                    chart.draw(data, options);
+                }
+            </script>
             <!-- start for three small tables -->
             <div class="no-filters mt-4">
                 <div class="flex justify-between py-1 h-10 no-filter-head">
@@ -692,6 +874,50 @@
 
             </div>
             <!-- end of legend -->
+
+
+            {{-- my chart --}}
+            <div class="flex h-[600px] w-[720px] m-auto justify-center items-center">
+                <div class="h-auto w-[700px] bg-green-100 px-4 my-2 mx-auto">
+                    <h3 class="text-green-600 font-semibold mt-10 mb-2">Customers - Bar Chart</h3>
+                    <canvas id="barchart" height="400" width="650"></canvas>
+                </div>
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script>
+                const ctx = document.getElementById('barchart');
+                let linechart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['orders', 'amount'],
+                        datasets: [
+                            @foreach ($customers as $customer)
+                                {
+                                    label: 'Customer Id :{{ $customer->id }}', // Assuming you have a 'name' property for each customer
+                                    // borderColor: getRandomColor(),
+                                    lineTension: 0.5,
+                                    pointBorderColor: 'rgba(196,229,56,1.0)',
+                                    data: [
+                                        {{ $customer->orders }},
+                                        {{ $customer->amount }},
+
+                                    ]
+                                },
+                            @endforeach
+                        ],
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: 'Customers',
+                        }
+                    },
+                });
+            </script>
+            {{-- my chart --}}
+
+
+
             <hr class="fill-gray-400 mt-12">
             <!-- footer start -->
             <div class="flex justify-center items-center h-10 w-full">
@@ -710,7 +936,7 @@
             </div>
 
             <!-- footer end -->
-            <script src="https://code.highcharts.com/highcharts.js"></script>
+            {{-- <script src="https://code.highcharts.com/highcharts.js"></script> --}}
 
             <script>
                 $(document).ready(function() {
@@ -747,7 +973,6 @@
                         }]
                     });
                 }
-
             </script>
     </body>
 

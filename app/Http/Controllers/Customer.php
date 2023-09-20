@@ -19,8 +19,17 @@ class Customer extends Controller
     {
         $isLoading = true;
         $customers = DB::table('esandhai-slate')->get();
-        return view('customer.all-customer', compact('customers', 'isLoading'));
+
+        foreach ($customers as $customer) {
+            $orders = $customer->orders;
+            $amount = $customer->amount;
+            $score = $customer->score;
+            $id = $customer->id;
+        }
+
+        return view('customer.all-customer', compact('customers', 'isLoading', 'orders', 'amount', 'score', 'id'));
     }
+
 
 
     public function exportCsv()
